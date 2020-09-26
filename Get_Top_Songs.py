@@ -29,7 +29,15 @@ def get_user_creds():
         return("Can't get token for", username)
 
 #Query last 6 months of users song choices and return top 50
-def get_six_months(token):
+def get_six_months(token, username):
     if token:
         sp = spotipy.Spotify(auth=token)
         topFifty = sp.current_user_top_tracks(limit=50,offset=0,time_range='medium_term')
+        for song in range(50):
+            list = []
+            list.append(topFifty)
+            with open('top50_data.json', 'w', encoding='utf-8') as f:
+                json.dump(list, f, ensure_ascii=False, indent=4)
+                return("Downloaded top 50 listens for", username)
+        else:
+            return("Can't get token for", username)
